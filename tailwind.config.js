@@ -13,12 +13,15 @@ module.exports = {
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
       colors: {
-        'orange-clair': '#f6cda2',
-        'orange-fonce': '#f1891c',
-        'orange-foncee': '#8f5113',
-       
+        'primary': '#57962c',
+        'primary-light': '#bcdc9f',
+        'secondary': '#550060',  
+        'secondary-light': '#ba5da5',  
+        'secondary-medium': '#824173'
+
       },
     },
   },
   plugins: [],
 }
+ //https://materialpalettes.com/

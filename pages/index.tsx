@@ -1,91 +1,63 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import Link from 'next/link';
-import { Carousel } from 'react-responsive-carousel';
-import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
-
+import { DEFAULT_ROOM } from '@/components/consts';
 import localFont from 'next/font/local'
+import Image from 'next/image';
 
 const lovelo = localFont({ src: '../public/fonts/Lovelo-Black.otf' });
-const poppy = localFont({ src: '../public/fonts/Poppy-Handwriting.ttf' });
-
 
 export default function Home() {
-  return <div>
-    <Head>
-      <title>présentation</title>
-    </Head>
-    <main className='flex flex-col w-full items-center'>
-      <div className='text-center max-w-prose text-white'>
-        <h1 className={`${poppy.className} m-8 text-7xl md:text-9xl`}>deepby.mp3</h1>
-        <p className={`${lovelo.className} m-8`}>
-          Bienvenue à la présentation de mon projet artistique intitulé Métamorphose.
-          Métamorphose est une installation artistique interactive qui explore le thème de la transformation.
-          Cette installation se compose de plusieurs éléments artistiques, tels que des sculptures, des projections vidéo,
-          des éléments sonores et des espaces interactifs. Le but de cette installation est de transporter
-          les spectateurs dans un monde où la transformation est le fil conducteur.
-        </p>
-
-        <p className={`${lovelo.className} m-8`}>
-          Les sculptures présentent des formes organiques qui évoluent au fil du temps, représentant la nature changeante de la vie.
-          Les projections vidéo montrent des images de métamorphoses, telles que des papillons sortant de leur chrysalide ou des plantes en train de germer.
-          Les éléments sonores, tels que des bruits de la nature ou des voix humaines,
-          créent une ambiance immersive qui ajoute à lexpérience de transformation.
-        </p>
-
-        <div className='flex items-center justify-center'>
-
-          <Carousel
-            width={300}
-          >
-            <div className="w-[300px] h-[300px] flex items-center justify-center">
-              <div className='bg-white w-[240px] h-[240px]'>
-
-                {/* <Image
-                  src={"/img/1.jpg"}
-                  alt="Picture of the author"
-                  width={240}
-                  height={240}
-/> */}
-              </div>
-
-            </div>
-            <div className="w-[300px] h-[300px] flex items-center justify-center">
-              <div className='bg-white w-[240px] h-[240px]'>
-                {/* <Image
-                  src={"/img/2.jpg"}
-                  alt="Picture of the author"
-                  width={240}
-                  height={240}
-/> */}
-              </div>
-            </div>
-
-          </Carousel>
-
+  return <main className='flex flex-col w-full items-center'>
+    <div className='text-center max-w-prose text-black'>
+      <p className={`${lovelo.className} m-4 text-xl`}>
+        Bienvenue sur ce petit site
+      </p>
+      <div className='my-8'></div>
+      <p className={`${lovelo.className} m-4 text-xl`}>
+        Pour se rendre vous sur dans une &apos;salle&apos; du site, il suffit d&apos;ajouter un numéro dans l&apos;url.
+      </p>
+      <p className={`${lovelo.className} m-4 text-xl bg-primary py-2`}>
+      https://delicieux-squelette.xyz/{DEFAULT_ROOM}
+      </p>
+      <p className={`${lovelo.className} m-4 text-xl`}>
+        Tu peux utiliser nimporte quelle numéro mais plus il est grand, moins il sera trouvable !
+      </p>
+      <div className='my-8'></div>
+      <p className={`${lovelo.className} m-4 text-xl`}>
+        Lorsque tu &apos;demande un dessin&apos; dans l&apos;onglet dessiner,
+        un emplacement t&apos;es reservé pour 10 minutes, aprés ce temps l&apos;emplacement sera de nouveau disponible et pourra être complété.
+      </p>
+      <p className={`${lovelo.className} m-4 text-xl`}>
+        ça permet de ne pas faire des trou dans le dessin si quelqu&apos; perd sa page pendant qu&apos;iel dessine
+      </p>
+      <div className='my-8'></div>
+      <p className={`${lovelo.className} m-4 text-xl`}>
+        Dans l&apos;onglet &apos;dessiner&apos;: <br />
+      </p>
+      <div className={`${lovelo.className} text-start`}>
+          <div>
+            ⚫ la couleur <div className='w-6 h-4 bg-secondary-light inline-block' /> signifie que l&apos;emplacement adjacent est libre<br />
+          </div>
+          <div>
+            ⚫ la couleur <div className='w-6 h-4 bg-secondary inline-block' /> signifie que l&apos;emplacement a été réservé par quelqu&apos;un il y a moins de 10 minutes
+          </div>
         </div>
+      <div className='my-8'></div>
+      <p className={`${lovelo.className} m-4 text-xl`}>
+        aussi, changer de page pendant un dessin le supprime, il faut attendre avant de pouvoir retrouver l&apos;emplacement (les 10 minutes tavu)
+      </p>
+      <p className={`${lovelo.className} m-4 text-xl`}>
+        bon griboulli !
+      </p>
+      <div className='flex flex-col items-center justify-center'> <Image
+        alt="mail"
+        src="/contact.png"
+        width={200}
+        height={70}
+      /></div>
 
-        <p className={`${lovelo.className} m-8`}>
-          Les sculptures présentent des formes organiques qui évoluent au fil du temps, représentant la nature changeante de la vie.
-          Les projections vidéo montrent des images de métamorphoses, telles que des papillons sortant de leur chrysalide ou des plantes en train de germer.
-          Les éléments sonores, tels que des bruits de la nature ou des voix humaines,
-          créent une ambiance immersive qui ajoute à lexpérience de transformation.
-        </p>
-
-        <a target="_blank" href="https://www.google.com/" rel="noopener noreferrer"
-          className='text-white bg-orange-fonce hover:bg-orange-foncee 
-             font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 
-             focus:outline-none'>
-          Participer !
-        </a>
-
-        <div className='my-16'></div>
-
-      </div>
-
-    </main>
-  </div>
+      <div className='my-16'></div>
+    </div>
+  </main>
 
 
-}
 
+} 
