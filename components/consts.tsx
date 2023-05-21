@@ -24,7 +24,7 @@ export const BORDER = 3
 
 
 // export const ROOM = 211
-export const MYURL = "https://delicieuxsquelette.xyz"
+export const MYURL = "http://127.0.0.1:8000"//"https://delicieuxsquelette.xyz"
 export const requestOptions = {
     method: 'GET',
     headers: {

@@ -35,7 +35,6 @@ function Navbar(props: LayoutProps) {
     const [open, setOpen] = useState(false)
     const router = useRouter()
     let id_room = Number(router.query.room)
-    console.log(id_room)
     if (isNaN(id_room)) {
         id_room = DEFAULT_ROOM
     }

@@ -55,7 +55,8 @@ export default function Voir() {
     const response = await fetch(MYURL + '/dessin/' + id_room, requestOptions);
     const data = await response.json();
     console.log("sendDraw : ", data)
-    if (data === null) {
+    if (data?.nb_added !== null) {
+      console.log("nb_added", data?.nb_added)
       return true
     } else {
       error.current = data
