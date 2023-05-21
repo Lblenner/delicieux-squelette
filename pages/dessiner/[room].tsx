@@ -12,7 +12,7 @@ export default function Voir() {
 
   let dessinRef = useRef(Array(WIDTH * HEIGHT).fill(0))
   let keyRef = useRef("")
-  let error = useRef("null")
+  let error = useRef<null | string>(null)
   let contourRef = useRef({ sideCells: Array(2 * BORDER * (HEIGHT + WIDTH + 2 * BORDER)), currentCell: undefined })
 
   let [strokeType, setStrokeType] = useState(STROKE_TYPE.PEN);
@@ -23,14 +23,15 @@ export default function Voir() {
     id_room = DEFAULT_ROOM
   }
   async function requestDraw() {
+    error.current = null
     const response = await fetch(`${MYURL}/dessin/${id_room}`, requestOptions);
     const data = await response.json();
     console.log("requestDraw : ", data)
-    if (data.error) {
-      error.current = data.error
+
+    if (typeof (data) === 'string') {
+      error.current = data
       return false;
     } else {
-      error.current = ""
       keyRef.current = data.key
       contourRef.current = { sideCells: data.side_cells, currentCell: data.selected_cell }
       return true
@@ -38,6 +39,7 @@ export default function Voir() {
   }
 
   async function sendDraw() {
+    error.current = null
     const requestOptions = {
       method: 'POST',
       headers: {
@@ -56,7 +58,7 @@ export default function Voir() {
     if (data === null) {
       return true
     } else {
-      error.current = data.error
+      error.current = data
       return false;
     }
   }
@@ -92,8 +94,10 @@ export default function Voir() {
       </div>
       break;
     case "idle":
-      content = <button className={`${lovelo.className} text-white text-small md:text-xl hover:bg-secondary bg-primary py-2.5 px-5 rounded-lg mt-8`}
+      content = <div><button className={`${lovelo.className} text-white text-small md:text-xl hover:bg-secondary bg-primary py-2.5 px-5 rounded-lg mt-8`}
         onClick={() => requestAction()}>demander un dessin</button>
+        {error.current !== null ? <div className='text-red-600 bg-red-100 rounded text-center my-2 py-2'>{error.current}</div> : <div/>}
+      </div>
       break;
     case "loaded":
       content = <div className='flex flex-col items-start'>
@@ -101,6 +105,7 @@ export default function Voir() {
           <DrawCanvas stroke_type={strokeType} dessinRef={dessinRef} contour={contourRef} />
           <ToolSelector strokeValue={strokeType} setStrokeValue={setStrokeType} strokeSize={strokeSize} setStrokeSize={setStrokeSize} />
         </div>
+        <div className='text-red-600 bg-red-100 rounded text-center my-2 py-2'>{error.current}</div>
         <button className={`${lovelo.className} text-white text-small md:text-xl hover:bg-secondary bg-primary py-2.5 px-5 rounded-lg mt-8`}
           onClick={() => sendAction()}>envoyer le dessin</button>
       </div>

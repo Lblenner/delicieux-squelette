@@ -42,6 +42,7 @@ function Navbar(props: LayoutProps) {
     return <div className="min-h-screen overflow-hiddenrelative bg-primary-light">
 
         <Head>
+            <link rel="icon" type="image/x-icon" sizes="32x32" href="/favicon.ico"></link>
             <title>Skeleton</title>
         </Head>
         <nav className={`w-full h-20 bg-primary text-white flex items-center ${open ? "justify-start" : " md:justify-center"}`}>

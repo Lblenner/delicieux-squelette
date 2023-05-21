@@ -22,10 +22,9 @@ export const WIDTH = HEIGHT
 export const PIXEL_SIZE = 1;
 export const BORDER = 3
 
-export const CELL_SIZE = 13
 
 // export const ROOM = 211
-export const MYURL = "http://127.0.0.1:8000"
+export const MYURL = "https://delicieuxsquelette.xyz"
 export const requestOptions = {
     method: 'GET',
     headers: {

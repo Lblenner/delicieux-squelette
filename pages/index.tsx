@@ -15,7 +15,7 @@ export default function Home() {
         Pour se rendre vous sur dans une &apos;salle&apos; du site, il suffit d&apos;ajouter un numéro dans l&apos;url.
       </p>
       <p className={`${lovelo.className} m-4 text-xl bg-primary py-2`}>
-      https://delicieux-squelette.xyz/{DEFAULT_ROOM}
+      https://delicieuxsquelette.xyz/{DEFAULT_ROOM}
       </p>
       <p className={`${lovelo.className} m-4 text-xl`}>
         Tu peux utiliser nimporte quelle numéro mais plus il est grand, moins il sera trouvable !
