@@ -35,6 +35,7 @@ function Navbar(props: LayoutProps) {
     const [open, setOpen] = useState(false)
     const router = useRouter()
     let id_room = Number(router.query.room)
+    console.log(id_room)
     if (isNaN(id_room)) {
         id_room = DEFAULT_ROOM
     }
@@ -91,8 +92,9 @@ const MobileNav = ({ open, setOpen }: MobileNavProps) => {
     let router = useRouter();
     let id_room = Number(router.query.room)
     if (isNaN(id_room)) {
-        id_room = 400
+        id_room = DEFAULT_ROOM
     }
+    
 
     const goTo = async (path: string) => {
         await router.push(path + id_room)

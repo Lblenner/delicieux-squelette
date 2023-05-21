@@ -25,13 +25,13 @@ export function DrawCanvas(props: {
     const tempCanvasRef = useRef<HTMLCanvasElement>(null)
     const [cellSize, setCellSize] = useState(21)
 
-    function getMousePos(evt: React.MouseEvent) {
+    function getMousePos(evt: { x: number, y: number }) {
         const canvas = canvasRef.current
         if (!canvas) return
         let rect = canvas.getBoundingClientRect();
         let real_pos = {
-            x: (evt.clientX - rect.left) / (rect.right - rect.left) * canvas.width,
-            y: (evt.clientY - rect.top) / (rect.bottom - rect.top) * canvas.height
+            x: (evt.x - rect.left) / (rect.right - rect.left) * canvas.width,
+            y: (evt.y - rect.top) / (rect.bottom - rect.top) * canvas.height
         };
         return {
             x: Math.floor(real_pos.x / cellSize),
@@ -50,7 +50,7 @@ export function DrawCanvas(props: {
         context.fillRect(x, y, width, height)
     }
 
-    function apply_tool(event: React.MouseEvent) {
+    function apply_tool(event: { x: number, y: number }) {
         let posResult = getMousePos(event)
         if (!posResult) {
             return
@@ -134,13 +134,17 @@ export function DrawCanvas(props: {
         draw(BORDER * cellSize - 1, BORDER * cellSize, 1, HEIGHT * cellSize, 'red')
         draw((HEIGHT + BORDER) * cellSize, BORDER * cellSize, 1, HEIGHT * cellSize, 'red')
 
-    }, [props.contour,cellSize])
+    }, [props.contour, cellSize])
 
     const handleDown: React.MouseEventHandler<HTMLCanvasElement> = event => {
         setPressed(true);
-        apply_tool(event)
+        apply_tool({ x: event.clientX, y: event.clientY })
     }
-    const handleUp: React.MouseEventHandler<HTMLCanvasElement> = event => {
+    const handleDown2: React.TouchEventHandler<HTMLCanvasElement> = event => {
+        setPressed(true);
+        apply_tool(getMosuePositionOnCanvas(event))
+    }
+    const handleUp = (_ev:any) => {
         setPressed(false);
     }
     const handleEnter: React.MouseEventHandler<HTMLCanvasElement> = event => {
@@ -149,7 +153,12 @@ export function DrawCanvas(props: {
 
     const handleMove: React.MouseEventHandler<HTMLCanvasElement> = event => {
         if (isPressed) {
-            apply_tool(event)
+            apply_tool({ x: event.clientX, y: event.clientY })
+        }
+    }
+    const handleMove2: React.TouchEventHandler<HTMLCanvasElement> = event => {
+        if (isPressed) {
+            apply_tool(getMosuePositionOnCanvas(event))
         }
     }
 
@@ -168,10 +177,17 @@ export function DrawCanvas(props: {
             width={(2 * BORDER + WIDTH) * cellSize}
             height={(2 * BORDER + HEIGHT) * cellSize}
             onMouseDown={handleDown}
+            onTouchStart={handleDown2}
+
             onMouseUp={handleUp}
+            onTouchEnd={handleUp}
+            onTouchCancel={handleUp}
+
             onMouseEnter={handleEnter}
             onMouseLeave={handleUp}
+
             onMouseMove={handleMove}
+            onTouchMove={handleMove2}
         />
         <canvas
             ref={tempCanvasRef}
@@ -180,7 +196,15 @@ export function DrawCanvas(props: {
     </div>
 }
 
+function getMosuePositionOnCanvas(event: any) {
+    const clientX = event.clientX || event.touches[0].clientX;
+    const clientY = event.clientY || event.touches[0].clientY;
+    const { offsetLeft, offsetTop } = event.target;
+    const canvasX = clientX - offsetLeft;
+    const canvasY = clientY - offsetTop;
 
+    return { x: canvasX, y: canvasY };
+}
 
 function epoch_ten_minute_ago() { return (Math.floor(Date.now() / 1000) - 600) }
 function rrr(sideCell: Cell, size: number) {
