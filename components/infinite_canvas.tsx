@@ -46,7 +46,7 @@ const ZOOM_SENSITIVITY = 500; // bigger for lower zoom per scroll
 
 export function Canvas(props: CanvasProps) {
     const canvasRef = useRef<HTMLCanvasElement>(null);
-    const [context, setContext] = useState<CanvasRenderingContext2D | null>(null);
+    const myContext = useRef<CanvasRenderingContext2D | null>(null);
     const [scale, setScale] = useState<number>(1);
     const [offset, setOffset] = useState<Point>(ORIGIN);
     const [mousePos, setMousePos] = useState<Point>(ORIGIN);
@@ -75,7 +75,7 @@ export function Canvas(props: CanvasProps) {
                 setScale(ratio());
 
                 // reset state and refs
-                setContext(context);
+                myContext.current = context;
                 setOffset(ORIGIN);
                 setMousePos(ORIGIN);
                 setViewportTopLeft(ORIGIN);
@@ -92,7 +92,7 @@ export function Canvas(props: CanvasProps) {
     // functions for panning
     const mouseMove = useCallback(
         (event: MouseEvent) => {
-            if (context) {
+            if (myContext.current) {
                 const lastMousePos = lastMousePosRef.current;
                 const currentMousePos = { x: event.pageX, y: event.pageY }; // use document so can pan off element
                 lastMousePosRef.current = currentMousePos;
@@ -101,7 +101,7 @@ export function Canvas(props: CanvasProps) {
                 setOffset((prevOffset) => addPoints(prevOffset, mouseDiff));
             }
         },
-        [context]
+        [myContext]
     );
 
     const mouseUp = useCallback(() => {
@@ -132,31 +132,31 @@ export function Canvas(props: CanvasProps) {
 
     // pan when offset or scale changes
     useIsomorphicEffect()(() => {
-        if (context && lastOffsetRef.current) {
+        if (myContext.current && lastOffsetRef.current) {
             const offsetDiff = scalePoint(
                 diffPoints(offset, lastOffsetRef.current),
                 scale
             );
-            context.translate(offsetDiff.x, offsetDiff.y);
+            myContext.current.translate(offsetDiff.x, offsetDiff.y);
             setViewportTopLeft((prevVal) => diffPoints(prevVal, offsetDiff));
             isResetRef.current = false;
         }
-    }, [context, offset, scale]);
+    }, [myContext, offset, scale]);
 
     // draw
     useIsomorphicEffect()(() => {
-        if (context) {
+        if (myContext.current) {
 
             // clear canvas but maintain transform
-            const storedTransform = context.getTransform();
-            context.canvas.width = context.canvas.width;
-            context.setTransform(storedTransform);
+            const storedTransform = myContext.current.getTransform();
+            myContext.current.canvas.width = myContext.current.canvas.width;
+            myContext.current.setTransform(storedTransform);
 
 
             props.cells.forEach((cell) => {
                 for (var i = 0; i < HEIGHT * WIDTH; i++) {
-                    context.fillStyle = cell.content[i] == 1 ? 'black' : 'lightgray'
-                    context.fillRect(
+                    myContext.current!.fillStyle = cell.content[i] == 1 ? 'black' : 'lightgray'
+                    myContext.current!.fillRect(
                         offsetx + PIXEL_SIZE * (WIDTH * cell.x + (i % WIDTH)),
                         offsety + PIXEL_SIZE * (HEIGHT * cell.y + Math.floor(i / HEIGHT)),
                         PIXEL_SIZE,
@@ -174,7 +174,7 @@ export function Canvas(props: CanvasProps) {
     }, [
         props.canvasWidth,
         props.canvasHeight,
-        context,
+        myContext,
         scale,
         props.cells,
         offset,
@@ -220,7 +220,7 @@ export function Canvas(props: CanvasProps) {
         // before and after zoom is relatively the same position on the viewport
         function handleWheel(event: WheelEvent) {
             event.preventDefault();
-            if (context) {
+            if (myContext.current) {
 
                 if (scale > 20 && event.deltaY < 0) {
                     return
@@ -239,11 +239,11 @@ export function Canvas(props: CanvasProps) {
                     viewportTopLeftDelta
                 );
 
-                context.translate(viewportTopLeft.x, viewportTopLeft.y);
+                myContext.current.translate(viewportTopLeft.x, viewportTopLeft.y);
 
-                context.scale(zoom, zoom);
+                myContext.current.scale(zoom, zoom);
 
-                context.translate(-newViewportTopLeft.x, -newViewportTopLeft.y);
+                myContext.current.translate(-newViewportTopLeft.x, -newViewportTopLeft.y);
                 setViewportTopLeft(newViewportTopLeft);
 
                 setScale(scale * zoom);
@@ -255,7 +255,7 @@ export function Canvas(props: CanvasProps) {
 
         canvasElem.addEventListener("wheel", handleWheel);
         return () => canvasElem.removeEventListener("wheel", handleWheel);
-    }, [context, mousePos.x, mousePos.y, viewportTopLeft, scale]);
+    }, [myContext, mousePos.x, mousePos.y, viewportTopLeft, scale]);
 
     return (
         <div>

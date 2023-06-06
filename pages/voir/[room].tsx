@@ -1,11 +1,12 @@
 import { Cell, DEFAULT_ROOM, MYURL, lovelo, requestOptions, useWindowSize } from "@/components/consts";
-import { Canvas } from "@/components/infinite_canvas";
+import { Canvas } from "@/components/new_infinite_canvas";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
 
 export default function Dessiner() {
 
     let [cells, setCells] = useState<Cell[]>([]);
+    let [load, setLoad] = useState(false);
     const router = useRouter();
 
     let id_room = Number(router.query.room)
@@ -14,20 +15,22 @@ export default function Dessiner() {
     }
 
     const requestCells = useCallback(async (i: number) => {
+        setLoad(true);
         try {
             let response = await fetch(MYURL + `/show/${i}`, requestOptions);
             let data = await response.json();
-            console.log("requestCells/", i, " : ", data)
+            //console.log("requestCells/", i, " : ", data)
 
             if (data.error) {
-
+                console.log("api err: " + data.error)
             } else {
-
                 setCells(data)
-
             }
+            setLoad(false);
+
         } catch (e) {
             console.log("err:", e)
+            setLoad(false);
         }
 
     }, [])
@@ -35,8 +38,14 @@ export default function Dessiner() {
     const size = useWindowSize();
 
     return <main className='flex flex-col w-full items-center max-md:items-start p-4'>
-        <Canvas canvasHeight={Math.min(Math.max((size.height??700),400)- 230, 500)} canvasWidth={Math.min((size.width ?? 700) - 100, 500)} cells={cells}></Canvas>
-        <button className={`${lovelo.className} text-white text-small md:text-xl hover:bg-secondary bg-primary py-2.5 px-5 rounded-lg mt-8`} onClick={() => requestCells(id_room)}>charger les dessins</button>
+        <Canvas 
+            canvasHeight={Math.min(Math.max((size.height ?? 700), 400) - 230, 500)} 
+            canvasWidth={Math.min((size.width ?? 700) - 100, 500)} cells={cells}/>
+        {load ? 
+            "loading..." : 
+            <button    
+                className={`${lovelo.className} text-white text-small md:text-xl 
+                hover:bg-secondary bg-primary py-2.5 px-5 rounded-lg mt-8`} onClick={() => requestCells(id_room)}>charger les dessins</button>}
     </main>
 
 }
