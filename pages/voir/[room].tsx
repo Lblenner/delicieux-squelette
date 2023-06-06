@@ -1,12 +1,13 @@
 import { Cell, DEFAULT_ROOM, MYURL, lovelo, requestOptions, useWindowSize } from "@/components/consts";
 import { Canvas } from "@/components/new_infinite_canvas";
 import { useRouter } from "next/router";
-import { useCallback, useEffect, useState } from "react";
+import { ChangeEventHandler, useCallback, useEffect, useState } from "react";
 
 export default function Dessiner() {
 
     let [cells, setCells] = useState<Cell[]>([]);
     let [load, setLoad] = useState(false);
+
     const router = useRouter();
 
     let id_room = Number(router.query.room)
@@ -37,17 +38,40 @@ export default function Dessiner() {
 
     const size = useWindowSize();
 
-    return <main className='flex flex-col w-full items-center max-md:items-start p-4'>
+    var h = 600
+    var w = 600
+
+    if (size.height && size.width) {
+        if (size.height < 650 || size.width < 650) {
+            h = 500
+            w = 500
+        }
+        if (size.height < 550 || size.width < 550) {
+            h = 400
+            w = 400
+        }
+        if (size.height < 450 || size.width < 450) {
+            h = 300
+            w = 300
+        }
+    } else {
+    
+    }   
+
+    return <main className='flex flex-col w-full items-center p-4'>
         <Canvas 
-            canvasHeight={Math.min(Math.max((size.height ?? 700), 400) - 230, 500)} 
-            canvasWidth={Math.min((size.width ?? 700) - 100, 500)} 
-            cells={cells}
-            />
+            canvasHeight={h} 
+            canvasWidth={w} 
+            cells={cells}/>
+
         {load ? 
             "loading..." : 
             <button    
                 className={`${lovelo.className} text-white text-small md:text-xl 
-                hover:bg-secondary bg-primary py-2.5 px-5 rounded-lg mt-8`} onClick={() => requestCells(id_room)}>charger les dessins</button>}
+                hover:bg-secondary bg-primary py-2.5 px-5 rounded-lg mt-8`} 
+                onClick={() => requestCells(id_room)}>
+                    charger les dessins
+            </button>}
     </main>
 
 }
