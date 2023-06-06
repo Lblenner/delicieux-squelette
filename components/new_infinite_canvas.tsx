@@ -17,7 +17,7 @@ export type ER = {
 
 }
 
-const CANV_SIZE =2000
+const CANV_SIZE = 400
 
 export function Canvas(props: CanvasProps) {
     const canvasRef = useRef<HTMLCanvasElement | null>(null);

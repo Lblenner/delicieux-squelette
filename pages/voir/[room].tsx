@@ -40,7 +40,9 @@ export default function Dessiner() {
     return <main className='flex flex-col w-full items-center max-md:items-start p-4'>
         <Canvas 
             canvasHeight={Math.min(Math.max((size.height ?? 700), 400) - 230, 500)} 
-            canvasWidth={Math.min((size.width ?? 700) - 100, 500)} cells={cells}/>
+            canvasWidth={Math.min((size.width ?? 700) - 100, 500)} 
+            cells={cells}
+            />
         {load ? 
             "loading..." : 
             <button    

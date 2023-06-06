@@ -1,0 +1,13 @@
+services:
+  cada-api:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    restart: always
+    # environment:
+    #   - POSTGRES_USER=postgres
+    #   - POSTGRES_PASSWORD=postgres
+    ports:
+      - '1338:1338'
+    # volumes: 
+    #   - db:/var/lib/postgresql/data
