@@ -9,8 +9,8 @@ interface NetworkResponse<T> {
     content?: T
 }
 
-// export const MYURL = "https://delicieuxsquelette.xyz"
-export const MYURL = "http://127.0.0.1:1420"
+export const MYURL = "https://delicieuxsquelette.xyz"
+// export const MYURL = "http://127.0.0.1:1420"
 
 export const getRooms = async (fetch: any) => {
     return await sendPost("/get_rooms", {}, fetch) as NetworkResponse<Room[]>
