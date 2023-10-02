@@ -7,9 +7,6 @@ export function createCanvasData(image_resolution: number, pixel_size: number, c
 		return null
 	}
 
-	console.log("CREATE", pixel_size, image_resolution, current_dessin)
-
-
 	let buffer = new Uint8ClampedArray(
 		image_resolution * image_resolution * pixel_size * pixel_size * 4
 	);
@@ -49,7 +46,6 @@ export function createCanvasData(image_resolution: number, pixel_size: number, c
 		subscribe,
 		applyToolActions: (toolAction: ToolAction[]) =>
 			update((buffer) => {
-				console.log("UPDATE")
 				toolAction.forEach((action) => {
 					for (let i = 0; i < pixel_size; i++) {
 						for (let j = 0; j < pixel_size; j++) {
@@ -69,8 +65,6 @@ export function createCanvasData(image_resolution: number, pixel_size: number, c
 			}),
 		draw: (context: CanvasRenderingContext2D | null) => {
 			if (context) {
-				console.log("DRAW")
-
 				let imageData = context.createImageData(
 					image_resolution * pixel_size,
 					image_resolution * pixel_size
