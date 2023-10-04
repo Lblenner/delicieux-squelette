@@ -22,9 +22,7 @@
 
 </script>
 
-
 <Modal />
-<Drawer />
 
 <AppShell>
 	<svelte:fragment slot="header">

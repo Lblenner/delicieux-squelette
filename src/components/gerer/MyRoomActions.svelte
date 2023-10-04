@@ -48,6 +48,9 @@
 		<div class="text-center p-2">
 			Mot de passe admin : {room.admin}
 		</div>
+		<button on:click={() => quitRoom(room)} class="btn w-full variant-filled"
+			>quitter la salle</button
+		>
 	{:else}
 		<button on:click={() => quitRoom(room)} class="btn w-full variant-filled"
 			>quitter la salle</button
