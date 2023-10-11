@@ -26,7 +26,25 @@ export const deleteRoom = async (args: { id: number, password?: string }, fetch:
 
 
 export const getDessins = async (args: { id: number, password?: string }, fetch: any) => {
-    return await sendPost("/get_dessins", args, fetch) as NetworkResponse<Cell[]>
+    let res =  await sendPost("/get_dessins", args, fetch) as NetworkResponse<Cell[]>
+    // dirty fix for legacy drawing hahahaha
+    if (res.content) {
+        let cells = res.content
+        for (let cell of cells)
+            if (cell.content && cell.content.length == 441) {
+            let new_content: number[] = [];
+  
+            for (let value of cell.content) {
+              if (value == 1) {
+                new_content = new_content.concat([0, 0, 0, 255]);
+              } else {
+                new_content = new_content.concat([0, 0, 0, 0]);
+              }
+            }
+            cell.content = new_content
+          } 
+    }
+    return res
 }
 
 
