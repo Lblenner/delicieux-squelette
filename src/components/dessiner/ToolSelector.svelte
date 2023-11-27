@@ -14,8 +14,9 @@
 	});
 </script>
 
-<div class="card flex-col flex items-start py-4 ">
-	{#each toolsList as tool, i}
+<div class="card flex-row flex items-center">
+	<div class="flex flex-col">
+		{#each toolsList as tool, i}
 		<button
 			class={'flex flex-row p-[8px] items-center ' +
 				(selected === i
@@ -31,7 +32,11 @@
 			</div>
 		</button>
 	{/each}
-	<BrushVisualisation />
-	<SizeSlider />
+	</div>
+	<div class="flex flex-col">
+		<BrushVisualisation />
+		<SizeSlider />
+	</div>
+	
 	<ColorPicker />
 </div>

@@ -8,12 +8,6 @@ export interface InitAppState {
     allRooms: Room[]
 }
 
-export const initStores = async (appState: InitAppState) => {
-    allRooms.set(appState.allRooms);
-    // selectedRoom.set(appState.selectedRoom);
-    // savedDessins.set(appState.savedDessins);
-    // currentDessin.set(appState.currentDessin);
-}
 
 export const allRooms = writable<Room[]>([]);
 export const usersRooms: Writable<RoomWithPass[]> = localStorageStore("usersRooms",[]);

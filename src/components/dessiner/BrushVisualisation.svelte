@@ -29,6 +29,6 @@
 	};
 </script>
 
-<div class="w-[144px] h-[64px] mt-2 flex justify-center items-center">
+<div class="w-[144px] h-[64px] flex justify-center items-center">
 	<Canvas width={64} height={64}><Layer {render} /></Canvas>
 </div>

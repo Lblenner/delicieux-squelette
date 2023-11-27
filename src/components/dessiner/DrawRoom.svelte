@@ -38,16 +38,16 @@
     dess = value;
   });
 
-  let screenWidth: number | undefined;
-  let screenHeight: number | undefined;
+  let screenWidth: number;
+  let screenHeight: number;
 
-  const getPixelSize = () => {
+  $: getPixelSize = () => {
     let value;
     if ($selectedRoom && screenHeight && screenWidth) {
       if ((screenWidth ?? 0) > 768) {
-        value = Math.floor(screenHeight / (2.5 * $selectedRoom?.resolution));
+        value = 5
       } else {
-        value = Math.floor(screenWidth / (2 * $selectedRoom?.resolution));
+        value = Math.floor(0.5 * screenWidth / ($selectedRoom?.resolution));
       }
     } else {
       value = null;
@@ -55,22 +55,25 @@
     return value;
   };
 
-  const setPixelSize = () => {
-    pixel_size = getPixelSize();
-  };
+  // const setPixelSize = () => {
+  //   pixel_size = getPixelSize();
+  // };
 
-  let pixel_size = getPixelSize();
+  $: pixel_size = getPixelSize();
 
-  $: {
-    if ($selectedRoom && screenHeight && screenWidth) {
-      setPixelSize();
-    }
-  }
+  // $: {
+  //   if ($selectedRoom && screenHeight && screenWidth) {
+  //     setPixelSize();
+  //   }
+  // }
+
 </script>
 
-<svelte:window bind:innerWidth={screenWidth} bind:innerHeight={screenHeight} />
-
-<div class="flex flex-col items-center justify-center p-4 gap-2">
+<div
+  bind:clientWidth={screenWidth}
+  bind:clientHeight={screenHeight}
+  class="w-full h-full flex items-center justify-center"
+>
   {#if error}
     <div
       class="w-full card bg-error-200-700-token text-error-800-100-token p-4"
@@ -78,45 +81,32 @@
       {error}
     </div>
   {/if}
+
   {#if $selectedRoom}
     {#await promise}
       load ...
     {:then}
       {#if dess && pixel_size}
-        <div class="flex items-center flex-row">
+        <div class="flex flex-col items-center">
           <SideCellsCanvas
-            image_resolution={$selectedRoom?.resolution ?? 0}
-            {pixel_size}
             current_dessin={dess}
+            image_resolution={$selectedRoom.resolution}
+            {pixel_size}
           >
             <DrawCanvas
-              image_resolution={$selectedRoom?.resolution ?? 0}
-              {pixel_size}
               current_dessin={dess}
+              image_resolution={$selectedRoom.resolution}
+              {pixel_size}
             />
           </SideCellsCanvas>
-          <ToolSelector />
-        </div>
 
-        <button class="btn variant-filled p-4 m-4 btn-lg" on:click={comp}
-          >Envoyer</button
-        >
-        <!-- <label
-          class="label w-[200px] text-center px-2"
-          on:touchmove|preventDefault
-          for="slide"
-        >
-          <span>Taille du dessin</span>
-          <input
-            id="slide"
-            type="range"
-            min="1"
-            max="20"
-            bind:value={pixel_size}
-            step="1"
-            class=" input w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
-          />
-        </label> -->
+          <div class="flex flex-col">
+            <ToolSelector />
+            <button class="btn variant-filled p-4 m-4 btn-lg" on:click={comp}
+              >Envoyer</button
+            >
+          </div>
+        </div>
       {:else}
         <div class="flex flex-col items-center p-4 gap-2 lg:max-w-lg max-w-xs">
           <p class="text-center whitespace-pre-line">
@@ -141,9 +131,6 @@
           >
         </div>
       {/if}
-      <!-- {:catch error}
-			Error
-			<button class="btn variant-filled p-4 m-4 btn-lg" on:click={req}>Demander un dessin</button> -->
     {/await}
   {:else}
     <p class="text-center lg:max-w-lg max-w-xs">

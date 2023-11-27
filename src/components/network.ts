@@ -9,8 +9,8 @@ interface NetworkResponse<T> {
     content?: T
 }
 
-export const MYURL = "https://delicieuxsquelette.xyz"
-// export const MYURL = "http://127.0.0.1:1420"
+export const MYURL = "https://gourmand-zombie.delicieux-squelette.xyz"
+//export const MYURL = "http://127.0.0.1:1420"
 
 export const getRooms = async (fetch: any) => {
     return await sendPost("/get_rooms", {}, fetch) as NetworkResponse<Room[]>
@@ -90,11 +90,12 @@ const sendPost = async <T>(route: string, obj: any, fetch: any) => {
             body: raw,
         };
 
-        const response = await fetch(MYURL + route, requestOptions)
+        const response: Response = await fetch(MYURL + route, requestOptions)
         if (response.status !== 200) {
+            console.log("not good status", response)
             result.error = {
                 message: "server erreur",
-                body: await response.json()
+                body: await response.text()
             }
         } else {
             result.content = await response.json()
@@ -103,7 +104,7 @@ const sendPost = async <T>(route: string, obj: any, fetch: any) => {
     } catch (e: any) {
         result.error = {
             message: "network erreur",
-            //body: e.body
+            body: e.message
         }
     }
 

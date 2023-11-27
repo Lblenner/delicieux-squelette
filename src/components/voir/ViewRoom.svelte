@@ -11,7 +11,7 @@
 <div
   bind:clientWidth={width}
   bind:clientHeight={height}
-  class="bg-surface-100-800-token w-screen h-[calc(100vh_-_5rem)]"
+  class="bg-surface-100-800-token w-full h-full"
 >
   {#await $currentCells}
     Load

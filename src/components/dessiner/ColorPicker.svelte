@@ -12,8 +12,9 @@
   });
 </script>
 
-<div class="w-[144px] flex items-center justify-center flex-col mt-4">
-  <div class="grid grid-cols-3 gap-2 mb-2">
+<div class="w-[144px] flex items-center justify-center flex-col">
+  <span>Couleur : {selected_color}</span>
+  <div class="grid grid-cols-3 gap-2 mt-2">
     {#if colors}
       {#each colors as color, i}
         <button
@@ -30,5 +31,4 @@
 		  No colors
     {/if}
   </div>
-  {selected_color}
 </div>
