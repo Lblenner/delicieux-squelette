@@ -3,6 +3,8 @@ import FaPen from 'svelte-icons/fa/FaPen.svelte'
 import FaEraser from 'svelte-icons/fa/FaEraser.svelte'
 import { get, writable } from 'svelte/store';
 
+
+
 export const selectedToolIndex = writable<number>(0);
 export const toolSize = writable<number>(2);
 export const toolColor = writable<string>("#50d71e");

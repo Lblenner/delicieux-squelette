@@ -2,21 +2,22 @@
 
 
 export const navigationValues = [
+    
     {
-        name: "Accueil",
-        route: "/"
-    },
-    {
-        name: "Voir",
+        name: "regarder",
         route: "/voir"
     },
     {
-        name: "Dessiner",
-        route: "/dessiner"
+        name: "présentation",
+        route: "/"
     },
     {
-        name: "Parcourir",
-        route: "/parcourir"
+        name: "dessiner",
+        route: "/dessiner"
     },
+    // {
+    //     name: "Parcourir",
+    //     route: "/parcourir"
+    // },
    
 ]

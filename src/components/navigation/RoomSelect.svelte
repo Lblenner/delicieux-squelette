@@ -1,4 +1,7 @@
 <script lang="ts">
+  // @ts-ignore
+  import FaDown from "svelte-icons/fa/FaChevronDown.svelte";
+
   import {
     popup,
     storePopup,
@@ -19,9 +22,18 @@
   };
 </script>
 
-<button class="btn variant-filled min-w-[300px]" use:popup={popupFeatured}
-  >{$selectedRoom?.name ?? "Selectionner un dessin"}</button
->
+<button class="btn variant-filled" use:popup={popupFeatured}>
+  {#if $selectedRoom?.name}
+    <div class="min-w-[200px]">
+      {$selectedRoom?.name ?? "Selectionner un dessin"}
+    </div>
+    <div class="w-[16px] h-[16px] mt-1">
+      <FaDown />
+    </div>
+  {:else}
+    pas de dessin selectionné
+  {/if}
+</button>
 <div data-popup="popupFeatured">
   <div class="card p-4 w-72 flex-col flex">
     {#if $usersRooms.length !== 0}

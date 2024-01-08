@@ -1,5 +1,6 @@
 <script lang="ts">
   import "../app.postcss";
+  import "./layout.css";
 
   import { AppShell, Modal, storePopup } from "@skeletonlabs/skeleton";
   import Header from "../components/navigation/Header.svelte";
@@ -20,9 +21,11 @@
 
 <Modal />
 
-<AppShell>
-    <svelte:fragment slot="header">
-      <Header />
-    </svelte:fragment>
+<AppShell class="text-center text-border text-white">
+  <svelte:fragment slot="header">
+    <Header />
+  </svelte:fragment>
+  <div class="bgg h-full">
     <slot />
+  </div>
 </AppShell>

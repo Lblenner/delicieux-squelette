@@ -1,16 +1,19 @@
-<div class="container mx-auto flex justify-center items-center h-[calc(100vh_-_5rem)]">
-	<div class=" lg:max-w-lg max-w-xs">
-		Helloo 🌞 <br />
-		Bienvenue sur la v2 du petit site ! <br /><br />
+<div
+  class="
+	h-full
+  	container
+	mx-auto
+  	md:max-w-2xl max-w-xs
+	flex flex-col
+	p-20"
+>
+  <h1 class="text-3xl">Delixieux sqelz</h1>
 
-		Pour voir le dessin selectionné, <br />&emsp; c'est l'onglet voir <br /> <br />
+  <div class="flex-[2_2_0%] flex flex-col gap-4 items-center justify-center"> 
+	<p>bienvenue sur le delicieux squelette, un cadavre exquis dessin en ligne</p>
+	<p>bipbapboup explication explication </p>
+	<p></p>
+  </div>
 
-		Pour demander un emplacement de dessin et dessiner, <br />&emsp; c'est l'onglet dessiner <br />
-		<br />
-
-		Pour ajouter un dessin public a ses dessins, <br />&emsp; c'est l'onglet parcourir <br /> <br />
-
-		Pour changer le dessin selectionné et gérer ses dessins, <br />&emsp; c'est en haut a droite
-		<br /> <br />
-	</div>
+  <div class="flex-[1_0_0%]"></div>
 </div>

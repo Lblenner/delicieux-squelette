@@ -2,4 +2,6 @@
 	import DrawRoom from "../../components/dessiner/DrawRoom.svelte";
 </script>
 
-<DrawRoom/>
+<div class="bg-[#432C78] w-full h-full">
+	<DrawRoom/>
+</div>

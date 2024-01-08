@@ -18,6 +18,17 @@
       let room = $selectedRoom;
       cells.forEach((cell) => {
         if (!cell.content) return;
+        if (cell.content.length != room.resolution * room.resolution * 4) {
+          console.log(
+            "Erreur : Cell(",
+            cell.x,
+            ",",
+            cell.y,
+            "), status: ",
+            cell.done, ", len : ", cell.content.length
+          );
+          return;
+        }
         let imageData = new ImageData(room.resolution, room.resolution);
         imageData.data.set(cell.content);
         context?.putImageData(
@@ -45,5 +56,5 @@
   bind:this={canvas}
   {width}
   {height}
-  style="width: {width}px; height: {height}px;"
+  style="width: {width}px; height: {height}px; background-color: #709c8d;"
 />

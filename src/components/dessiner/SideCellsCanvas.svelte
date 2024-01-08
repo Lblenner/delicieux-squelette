@@ -21,40 +21,26 @@
     if (!context || pixel_size == -1) {
       return;
     }
-
+    canvasHolderRef.innerHTML = ''
     current_dessin.side_cells.forEach((cell) => {
       if (!cell.content) {
-        let imageData = new ImageData(
-          image_resolution * pixel_size,
-          image_resolution * pixel_size
-        );
-        let content = new Uint8ClampedArray(
-          image_resolution * image_resolution * pixel_size * pixel_size * 4
-        );
-        content.forEach((_, content_index) => {
-          if (content_index % 4 == 3) {
-            content[content_index] = 128;
-            return;
-          }
-          content[content_index] = 0;
-        });
 
-        imageData.data.set(content);
+        let child = document.createElement("div");
+        let l = image_resolution * pixel_size;
+        let diffX = current_dessin.selected_cell.x - cell.x;
+        let diffY = current_dessin.selected_cell.y - cell.y;
 
-        let x =
-          dxy +
-          image_resolution *
-            pixel_size *
-            (cell.x - current_dessin.selected_cell.x);
-        let y =
-          dxy +
-          image_resolution *
-            pixel_size *
-            (cell.y - current_dessin.selected_cell.y);
+        if (diffX == 0 && diffY == 0) {
+          return
+        }
+        child.style.width = (diffX == 0 ? l : dxy) + "px";
+        child.style.height = (diffY == 0 ? l : dxy) + "px";
+        child.style.top = (diffY == 0 ? dxy : diffY < 0 ? dxy + l : 0) + "px";
+        child.style.left = (diffX == 0 ? dxy : diffX < 0 ? dxy + l : 0) + "px";
+        child.style.backgroundColor = "#5d9281";
+        child.style.position = "absolute";
+        canvasHolderRef.appendChild(child);
 
-        setTimeout(function () {
-          context?.putImageData(imageData, x, y);
-        }, 10);
         return;
       }
 
@@ -112,6 +98,7 @@
     });
     return buffer;
   }
+  let canvasHolderRef: HTMLDivElement;
 
   onMount(async () => {
     if (!canvas) return;
@@ -121,9 +108,9 @@
   });
 </script>
 
-<div class="card p-4">
+<div class="p-4">
   <div style="width: {w}px; height: {h}px">
-    <div class="relative bg-slate-500/[0.7]">
+    <div class="relative bg-[#709c8d]" >
       <canvas
         bind:this={canvas}
         width={w}
@@ -131,11 +118,13 @@
         style="width: {w}px; height: {h}px;"
       />
 
+      <div bind:this={canvasHolderRef}></div>
+
       <div
         style="width: {image_resolution *
           pixel_size}px; height: {image_resolution *
           pixel_size}px; top: {dxy}px; left: {dxy}px"
-        class="absolute top-0 bg-blue-950"
+        class="absolute"
       >
         <slot />
       </div>

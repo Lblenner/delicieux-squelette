@@ -12,6 +12,7 @@
   });
 </script>
 
-<div class="w-full flex justify-center">
+<div class="bg-[#432C78] w-full h-full p-20">
   <RoomJoin />
 </div>
+

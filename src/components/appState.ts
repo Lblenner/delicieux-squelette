@@ -83,6 +83,13 @@ export const request = async () => {
     }
 }
 
+export const cancelDessin = async () => {
+    
+
+        currentDessin.set(null)
+    
+}
+
 export const complete = async () => {
     const room = get(selectedRoom)
     const cell = get(currentDessin)

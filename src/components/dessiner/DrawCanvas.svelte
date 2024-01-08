@@ -99,7 +99,7 @@
   bind:this={canvas}
   style="width: {image_resolution * pixel_size}px; height: {image_resolution *
     pixel_size}px;"
-  class="bg-slate-500 touch-none"
+  class="bg-[#5d9281] touch-none"
   on:mousemove={handleMousemove}
   on:mousedown={handleMousemove}
   on:touchmove|stopPropagation={handleTouchemove}

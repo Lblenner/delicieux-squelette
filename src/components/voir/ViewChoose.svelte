@@ -1,7 +1,9 @@
 <script lang="ts">
-  import { allRooms, setSelectedRoom } from "../appState";
   import { goto } from "$app/navigation";
+  import { allRooms, setSelectedRoom } from "../appState";
 </script>
+
+<svelte:window />
 
 <div class="w-full h-full overflow-x-scroll">
   <div
@@ -10,11 +12,11 @@
     {#each $allRooms as room, i}
       <button
         on:click={() => {
-          setSelectedRoom(room);
-          goto("dessiner");
+            setSelectedRoom(room);
+            goto("canvas");
         }}
         class="shadow-fuzz w-64 h-64 p-2
-			  bg-[rgb(19,71,5)]"
+            bg-[rgb(19,71,5)]"
       >
         {room.name}
       </button>
