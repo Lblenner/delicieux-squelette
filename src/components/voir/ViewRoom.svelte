@@ -15,7 +15,7 @@
     <button
       class="h-full w-fulltext-base"
       on:click={() => {
-        goto("voir");
+        goto("/voir");
       }}
     >
       <FaArrowLeft />

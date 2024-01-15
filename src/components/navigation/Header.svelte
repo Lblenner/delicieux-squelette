@@ -4,10 +4,10 @@
   import { navigationValues } from "./navigation";
 </script>
 
-<nav class="w-full h-20">
-  <div class="base h-20 w-full flex items-center justify-center text-2xl p-4">
-    <MobileNav />
+<nav class="base w-full sm:h-20 h-12">
+  <div class="flex items-center md:justify-center h-full w-full text-2xl p-4">
     <Burger />
+    <MobileNav />
     <div class="hidden md:flex flex-row items-center gap-10">
       <ul class="gap-10 items-center justify-center flex">
         {#each navigationValues as item}

@@ -21,6 +21,7 @@
     let y = e.clientY - rect.top;
     x = Math.floor(x / pixel_size);
     y = Math.floor(y / pixel_size);
+    
     if (e.buttons === 1) {
       applyTool(x, y);
     }
@@ -36,6 +37,7 @@
     ) {
       let x = e.touches[0].clientX - rect.left;
       let y = e.touches[0].clientY - rect.top;
+
       x = Math.floor(x / pixel_size);
       y = Math.floor(y / pixel_size);
       applyTool(x, y);
@@ -57,7 +59,10 @@
         return value;
       }
       let content: number[];
-      if (!value.selected_cell.content) {
+  
+      if (
+        !value.selected_cell.content
+      ) {
         content = new Array(image_resolution * image_resolution * 4);
         content.fill(0);
       } else {
@@ -66,16 +71,20 @@
 
       toolAction.forEach((coo) => {
         let pos = (coo.y * image_resolution + coo.x) * 4; // position in buffer based on x and y
-        // dessin.splice.apply([pos, 4, ...coo.value]);
-        content[pos] = coo.value[0]; // some R value [0, 255]
-        content[pos + 1] = coo.value[1]; // some G value
-        content[pos + 2] = coo.value[2]; // some B value
-        content[pos + 3] = coo.value[3]; // set alpha channel
+        if (pos < content.length) {
+          // dessin.splice.apply([pos, 4, ...coo.value]);
+          content[pos] = coo.value[0]; // some R value [0, 255]
+          content[pos + 1] = coo.value[1]; // some G value
+          content[pos + 2] = coo.value[2]; // some B value
+          content[pos + 3] = coo.value[3]; // set alpha channel
+        }
       });
 
       content = content.map((value) => (value === null ? 0 : value));
 
       value.selected_cell.content = content;
+      //console.log("end ", value?.selected_cell?.content?.length)
+
       return value;
     });
   };

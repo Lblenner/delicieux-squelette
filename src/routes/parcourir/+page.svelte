@@ -12,7 +12,7 @@
   });
 </script>
 
-<div class="bg-[#432C78] w-full h-full p-20">
+<div class="bg-primary w-full h-full pt-12">
   <RoomJoin />
 </div>
 

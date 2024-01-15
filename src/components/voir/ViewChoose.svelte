@@ -13,10 +13,9 @@
       <button
         on:click={() => {
             setSelectedRoom(room);
-            goto("canvas");
+            goto("/canvas");
         }}
-        class="shadow-fuzz w-64 h-64 p-2
-            bg-[rgb(19,71,5)]"
+        class="shadow-fuzz w-64 h-64 p-2 bg-dessin rounded-3xl mb-4"
       >
         {room.name}
       </button>

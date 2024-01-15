@@ -41,31 +41,31 @@ export const toolsList: Tool[] = [
             value[2] = rgba[2]
             value[3] = rgba[3]
 
-
+            // console.log(image_resolution, x)
             const positions: ToolAction[] = []
             switch (tool_size) {
                 case 4:
                     if (x > 1) positions.push({ x: x - 2, y, value });
                     if (x < image_resolution - 2) positions.push({ x: x + 2, y, value });
                     if (y > 1) positions.push({ x, y: y - 2, value });
-                    if (y !== image_resolution - 2) positions.push({ x, y: y + 2, value });
+                    if (y < image_resolution - 2) positions.push({ x, y: y + 2, value });
                 // eslint-disable-next-line no-fallthrough
                 case 3:
-                    if (x !== 0 && y !== 0) positions.push({ x: x - 1, y: y - 1, value });
-                    if (x !== image_resolution - 1 && y !== image_resolution - 1) positions.push({ x: x + 1, y: y + 1, value });
-                    if (x !== image_resolution - 1 && y !== 0) positions.push({ x: x + 1, y: y - 1, value });
-                    if (x !== 0 && y !== image_resolution - 1) positions.push({ x: x - 1, y: y + 1, value });
+                    if (x > 0 && y > 0) positions.push({ x: x - 1, y: y - 1, value });
+                    if (x < image_resolution - 1 && y < image_resolution - 1) positions.push({ x: x + 1, y: y + 1, value });
+                    if (x < image_resolution - 1 && y > 0) positions.push({ x: x + 1, y: y - 1, value });
+                    if (x > 0 && y < image_resolution - 1) positions.push({ x: x - 1, y: y + 1, value });
                 // eslint-disable-next-line no-fallthrough
                 case 2:
-                    if (x !== 0) positions.push({ x: x - 1, y, value });
-                    if (x !== image_resolution - 1) positions.push({ x: x + 1, y, value });
-                    if (y !== 0) positions.push({ x, y: y - 1, value });
-                    if (y !== image_resolution - 1) positions.push({ x, y: y + 1, value });
+                    if (x > 0) positions.push({ x: x - 1, y, value });
+                    if (x < image_resolution - 1) positions.push({ x: x + 1, y, value });
+                    if (y > 0) positions.push({ x, y: y - 1, value });
+                    if (y < image_resolution - 1) positions.push({ x, y: y + 1, value });
                 // eslint-disable-next-line no-fallthrough
                 case 1:
                     positions.push({ x, y, value });
             }
-
+            // console.log(positions)
             return positions
 
         }

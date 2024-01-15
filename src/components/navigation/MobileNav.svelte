@@ -11,9 +11,9 @@
   }
 </script>
 
-<Drawer>
+<Drawer bgDrawer="base">
   <div
-    class="flex items-center justify-center filter drop-shadow-md bg-primary-light h-20"
+    class="flex items-center justify-center filter drop-shadow-md h-20"
   >
     <!-- {/* potential name */} -->
   </div>
@@ -27,9 +27,5 @@
         {item.name}
       </button>
     {/each}
-    <div class="gap-3 flex flex-row mt-4">
-      <LightSwitch />
-      <LanguageSwitch/>
-    </div>
   </div>
 </Drawer>

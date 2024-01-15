@@ -3,7 +3,7 @@
   import { selectedRoom } from "../appState";
 </script>
 
-<div class="flex flex-col items-center p-4 gap-2 lg:max-w-lg max-w-xs border">
+<div class=" flex flex-col items-center p-4 gap-2">
   {#if $selectedRoom}
     <h3
       class="text-center whitespace-pre-line border-b border-white pb-2 pr-4 pl-4"
@@ -13,9 +13,9 @@
     {#if $selectedRoom.rules}
       <p>{$selectedRoom.rules}</p>
     {/if}
-    <div class="w-[20%] truncate">
+    <p class="">
       {$selectedRoom.resolution}x{$selectedRoom.resolution}
-    </div>
+    </p>
     <div class="grid grid-cols-3 gap-2">
       {#each $selectedRoom.colors as color, i}
         <div class=" w-[40px] h-[20px]" style="background-color : {color};" />
@@ -26,8 +26,8 @@
   {/if}
 </div>
 <button
-  class="btn variant-filled p-4 m-2 mb-0 btn-lg bg-black"
+  class="btn variant-filled p-3 m-1 mb-0 btn-sm bg-black"
   on:click={() => {
-    goto("parcourir");
+    goto("/parcourir");
   }}>Changer de dessin</button
 >

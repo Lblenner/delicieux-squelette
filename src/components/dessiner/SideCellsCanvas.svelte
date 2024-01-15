@@ -85,6 +85,8 @@
       }
       let x = (content_index / 4) % res;
       let y = Math.floor(content_index / 4 / res);
+      //console.log(x)
+
       for (let i = 0; i < pix_size; i++) {
         for (let j = 0; j < pix_size; j++) {
           let bufferPos =

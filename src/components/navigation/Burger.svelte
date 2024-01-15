@@ -5,7 +5,7 @@
 
 <div>
 	<button
-		class="z-50 flex relative w-8 h-8 flex-col justify-between items-center {$drawerStore.open
+		class="z-50 flex relative sm:w-8 sm:h-8  h-6 w-6 flex-col justify-between items-center {$drawerStore.open
 			? ''
 			: 'md:hidden'}"
 		on:click={() => ($drawerStore.open ? drawerStore.close() : drawerStore.open())}
@@ -14,7 +14,7 @@
 		<!-- {/* hamburger button */} -->
 		<span
 			class="h-1 w-full bg-white rounded-lg transform transition duration-300 ease-in-out {$drawerStore.open
-				? 'rotate-45 translate-y-3.5'
+				? 'rotate-45 sm:translate-y-3.5 translate-y-2.5'
 				: ''}"
 		/>
 		<span
@@ -24,7 +24,7 @@
 		/>
 		<span
 			class="h-1 w-full bg-white rounded-lg transform transition duration-300 ease-in-out {$drawerStore.open
-				? '-rotate-45 -translate-y-3.5'
+				? '-rotate-45 sm:-translate-y-3.5 -translate-y-2.5'
 				: ''}"
 		/>
 	</button>

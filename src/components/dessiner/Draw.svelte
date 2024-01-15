@@ -22,11 +22,12 @@
   $: getPixelSize = () => {
     let value;
     if ($selectedRoom && screenHeight && screenWidth) {
-      if ((screenWidth ?? 0) > screenHeight - 200) {
-        value = Math.floor((0.5 * screenHeight) / $selectedRoom?.resolution);;
+      if (screenWidth < 450) {
+        value = Math.floor((0.5 * screenWidth) / $selectedRoom?.resolution);
       } else {
-        value = Math.floor((0.65 * screenWidth) / $selectedRoom?.resolution);
+        value = Math.floor((0.5 * screenHeight) / $selectedRoom?.resolution);;
       }
+
     } else {
       value = null;
     }
@@ -41,7 +42,7 @@
 </script>
 
 <div
-  class="w-full h-full flex items-center justify-center"
+  class="w-full h-full flex items-center sm:justify-center justify-end"
   bind:clientWidth={screenWidth}
   bind:clientHeight={screenHeight}
 >
@@ -58,8 +59,5 @@
       />
     </SideCellsCanvas>
 
-    <div class="absolute right-0 top-16">
-        <ToolSelector />
-    </div>
   {/if}
 </div>
