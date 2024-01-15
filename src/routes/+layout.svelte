@@ -6,8 +6,7 @@
   import Header from "../components/navigation/Header.svelte";
 
   import { initializeStores } from "@skeletonlabs/skeleton";
-  initializeStores();
-
+  import { isLoading } from "svelte-i18n";
   import {
     computePosition,
     autoUpdate,
@@ -16,16 +15,24 @@
     offset,
     arrow,
   } from "@floating-ui/dom";
+  import { initLang } from "../i18n";
+
+  initializeStores();
   storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
+  initLang()
 </script>
 
 <Modal />
 
-<AppShell class="text-center text-border text-white">
-  <svelte:fragment slot="header">
-    <Header />
-  </svelte:fragment>
-  <div class="bgg h-full">
-    <slot />
-  </div>
-</AppShell>
+{#if $isLoading}
+  Please wait...
+{:else}
+  <AppShell class="text-center text-border text-white">
+    <svelte:fragment slot="header">
+      <Header />
+    </svelte:fragment>
+    <div class="bgg h-full">
+      <slot />
+    </div>
+  </AppShell>
+{/if}
