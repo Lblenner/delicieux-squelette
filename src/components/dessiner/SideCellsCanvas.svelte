@@ -1,7 +1,7 @@
 <script lang="ts">
   export let image_resolution: number;
   export let pixel_size: number;
-  export let current_dessin: Dessin;
+  import { currentDessin } from "../appState";
 
   let canvas: HTMLCanvasElement;
   let context: CanvasRenderingContext2D | null;
@@ -14,16 +14,16 @@
   $: h = w;
 
   $: drawBuffer = (
-    current_dessin: Dessin,
+    current_dessin: Dessin | null,
     image_resolution: number,
     pixel_size: number
   ) => {
-    if (!context || pixel_size == -1) {
+    if (!context || pixel_size == -1 || !current_dessin) {
       return;
     }
     canvasHolderRef.innerHTML = ''
     current_dessin.side_cells.forEach((cell) => {
-      if (!cell.content) {
+      if (!cell.content || !cell.done) {
 
         let child = document.createElement("div");
         let l = image_resolution * pixel_size;
@@ -74,7 +74,7 @@
     });
   };
 
-  $: drawBuffer(current_dessin, image_resolution, pixel_size);
+  $: drawBuffer($currentDessin, image_resolution, pixel_size);
 
   function toBuffer(content: number[], res: number, pix_size: number) {
     let buffer = new Uint8ClampedArray(res * res * pix_size * pix_size * 4);
@@ -106,7 +106,6 @@
     if (!canvas) return;
     context = canvas.getContext("2d");
     if (!context) return;
-    // drawBuffer(current_dessin,im)
   });
 </script>
 

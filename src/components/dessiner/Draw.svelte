@@ -1,23 +1,8 @@
 <script lang="ts">
-  import { currentDessin, selectedRoom } from "../appState";
-  import type { Dessin } from "../types";
+  import { selectedRoom } from "../appState";
 
   import DrawCanvas from "./DrawCanvas.svelte";
   import SideCellsCanvas from "./SideCellsCanvas.svelte";
-  import ToolSelector from "./ToolSelector.svelte";
-
-  let dess: null | Dessin = null;
-
-  currentDessin.subscribe((value) => {
-    if (!value) {
-      dess = value;
-      return;
-    }
-    if (dess && dess.key == value.key) {
-      return;
-    }
-    dess = value;
-  });
 
   $: getPixelSize = () => {
     let value;
@@ -46,14 +31,12 @@
   bind:clientWidth={screenWidth}
   bind:clientHeight={screenHeight}
 >
-  {#if dess && pixel_size && $selectedRoom}
+  {#if pixel_size && $selectedRoom}
     <SideCellsCanvas
-      current_dessin={dess}
       image_resolution={$selectedRoom.resolution}
       {pixel_size}
     >
       <DrawCanvas
-        current_dessin={dess}
         image_resolution={$selectedRoom.resolution}
         {pixel_size}
       />

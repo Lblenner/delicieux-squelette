@@ -3,17 +3,15 @@
   import { selectedToolIndex, toolsList, type ToolAction } from "./tools";
   import { get } from "svelte/store";
   import { currentDessin } from "../appState";
-  import type { Dessin } from "../types";
   import { createCanvasData } from "./canvasData";
 
   export let image_resolution: number;
   export let pixel_size: number;
-  export let current_dessin: Dessin;
 
   let canvas: HTMLCanvasElement;
   let context: CanvasRenderingContext2D | null;
 
-  $: buffer = createCanvasData(image_resolution, pixel_size, current_dessin);
+  $: buffer = createCanvasData(image_resolution, pixel_size, $currentDessin);
 
   const handleMousemove = (e: MouseEvent) => {
     var rect = canvas.getBoundingClientRect();
@@ -21,7 +19,7 @@
     let y = e.clientY - rect.top;
     x = Math.floor(x / pixel_size);
     y = Math.floor(y / pixel_size);
-    
+
     if (e.buttons === 1) {
       applyTool(x, y);
     }
@@ -59,14 +57,17 @@
         return value;
       }
       let content: number[];
-  
+
       if (
-        !value.selected_cell.content
+        value.selected_cell.content &&
+        value.selected_cell.content.length ===
+          image_resolution * image_resolution * 4
       ) {
+        content = value.selected_cell.content;
+      } else {
+        console.log("new dessin");
         content = new Array(image_resolution * image_resolution * 4);
         content.fill(0);
-      } else {
-        content = value?.selected_cell.content;
       }
 
       toolAction.forEach((coo) => {
@@ -83,7 +84,6 @@
       content = content.map((value) => (value === null ? 0 : value));
 
       value.selected_cell.content = content;
-      //console.log("end ", value?.selected_cell?.content?.length)
 
       return value;
     });

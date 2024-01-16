@@ -2,13 +2,13 @@ import { writable } from 'svelte/store';
 import type { Dessin } from '../types';
 import type { ToolAction } from './tools';
 
-export function createCanvasData(image_resolution: number, pixel_size: number, current_dessin: Dessin) {
+export function createCanvasData(image_resolution: number, pixel_size: number, current_dessin: Dessin | null) {
 
 	let buffer = new Uint8ClampedArray(
 		image_resolution * image_resolution * pixel_size * pixel_size * 4
 	);
 
-	if (current_dessin.selected_cell.content) {
+	if (current_dessin && current_dessin.selected_cell.content) {
 		current_dessin.selected_cell.content.forEach((_, content_index) => {
 			if (content_index % 4 !== 0) {
 				return;

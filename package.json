@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "dev": "vite dev",
+    "dev": "vite dev --host",
     "build": "vite build",
     "preview": "vite preview",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
@@ -32,7 +32,6 @@
     "@floating-ui/dom": "1.5.3",
     "ef-infinite-canvas": "^0.6.2",
     "svelte-canvas": "^0.9.3",
-    "svelte-flag-icons": "^0.7.2",
     "svelte-i18n": "^4.0.0",
     "svelte-icons": "^2.1.0"
   }

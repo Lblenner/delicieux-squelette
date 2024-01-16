@@ -13,34 +13,7 @@
   let canvas: HTMLCanvasElement;
   let context: InfiniteCanvasRenderingContext2D | null;
 
-  const draw = () => {
-    if ($selectedRoom && context && canvas) {
-      let room = $selectedRoom;
-      cells.forEach((cell) => {
-        if (!cell.content) return;
-        if (cell.content.length != room.resolution * room.resolution * 4) {
-          console.log(
-            "Erreur : Cell(",
-            cell.x,
-            ",",
-            cell.y,
-            "), status: ",
-            cell.done, ", len : ", cell.content.length
-          );
-          return;
-        }
-        let imageData = new ImageData(room.resolution, room.resolution);
-        imageData.data.set(cell.content);
-        context?.putImageData(
-          imageData,
-          cell.x * room.resolution + canvas.width / 2,
-          cell.y * room.resolution + canvas.height / 2
-        );
-      });
-    }
-  };
-
-  onMount(async () => {
+  onMount(() => {
     if (!canvas) return;
     const infinite_canvas = new InfiniteCanvas(canvas);
     infinite_canvas.greedyGestureHandling = true;
@@ -48,7 +21,36 @@
     if (!context) return;
     context.shadowBlur = 0;
     context.imageSmoothingEnabled = false;
-    draw();
+
+    if (window.Worker) {
+      const url = new URL("/src/worker.ts", import.meta.url);
+      let worker = new Worker(url);
+
+      worker.onmessage = (e: MessageEvent<any>) => {
+        if (e.data.message) {
+          console.log("worker: ", e.data.message);
+        }
+        if (e.data.imageData) {
+          context?.putImageData(
+            e.data.imageData,
+            e.data.x + canvas.width / 2,
+            e.data.y + canvas.height / 2
+          );
+        }
+      };
+
+      if ($selectedRoom?.resolution) {
+        worker.postMessage({ res: $selectedRoom?.resolution, cells: cells });
+      } else {
+        console.log("error drawing : no room selected");
+      }
+
+      return () => {
+        worker.terminate();
+      };
+    } else {
+      console.log("no worker capabilities");
+    }
   });
 </script>
 

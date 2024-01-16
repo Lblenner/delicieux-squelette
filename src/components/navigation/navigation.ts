@@ -2,14 +2,13 @@
 
 
 export const navigationValues = [
-    
-    {
-        name: "regarder",
-        route: "/voir"
-    },
     {
         name: "présentation",
         route: "/"
+    },
+    {
+        name: "regarder",
+        route: "/voir"
     },
     {
         name: "dessiner",
@@ -19,5 +18,5 @@ export const navigationValues = [
     //     name: "Parcourir",
     //     route: "/parcourir"
     // },
-   
+
 ]
