@@ -38,7 +38,6 @@
   class="w-[64px] h-[64px] flex justify-center items-center"
   on:click={() => {
     toolSize.set($toolSize + 1 > 4 ? 1 : $toolSize + 1);
-    console.log("click");
   }}
 >
   <Canvas class="pointer-events-none" width={64} height={64}

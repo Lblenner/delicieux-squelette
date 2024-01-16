@@ -1,4 +1,4 @@
-import type { Cell } from "./components/types";
+import type { Cell } from "../components/types";
 
 export type WorkerMessage = {
     imageData?: ImageData,
@@ -8,10 +8,11 @@ export type WorkerMessage = {
 
 }
 
-addEventListener('message', async (event: MessageEvent<{ cells: Cell[], res: number }>) => {
-    const cells: Cell[] = event.data.cells;
-    const res = event.data.res
 
+addEventListener('message', async (event
+    : MessageEvent<{ cells: Cell[], res: number }>) => {
+    const cells = event.data.cells;
+    const res = event.data.res
     postMessage({
         message: "message processing..."
     })

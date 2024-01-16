@@ -65,7 +65,6 @@
       ) {
         content = value.selected_cell.content;
       } else {
-        console.log("new dessin");
         content = new Array(image_resolution * image_resolution * 4);
         content.fill(0);
       }

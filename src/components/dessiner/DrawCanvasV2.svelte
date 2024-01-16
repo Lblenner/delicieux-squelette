@@ -38,7 +38,6 @@
     let y = e.clientY - rect.top;
 
     if (e.buttons === 1 && context) {
-      console.log("heeeyy");
       let matrix = context.getTransform();
       let point = { x: e.clientX, y: e.clientY };
       const transformedPoint = {
@@ -48,7 +47,6 @@
       //draw();
       context.fillRect(x, y, 1, 1);
 
-      // console.log("coo ? :", transformedPoint);
 
       //applyTool(x, y);
     }

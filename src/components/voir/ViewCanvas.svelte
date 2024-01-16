@@ -10,8 +10,37 @@
   export let height: number;
   export let cells: Cell[];
 
+  let worker: Worker | null;
+
   let canvas: HTMLCanvasElement;
   let context: InfiniteCanvasRenderingContext2D | null;
+
+  const loadWorker = async () => {
+    const SyncWorker = await import("$lib/worker.ts?worker");
+    worker = new SyncWorker.default();
+
+    //const url = new URL("/src/service-worker.js", import.meta.url);
+    //let worker = new Worker(url);
+
+    worker.onmessage = (e: MessageEvent<any>) => {
+      if (e.data.message) {
+        console.log("worker: ", e.data.message);
+      }
+      if (e.data.imageData) {
+        context?.putImageData(
+          e.data.imageData,
+          e.data.x + canvas.width / 2,
+          e.data.y + canvas.height / 2
+        );
+      }
+    };
+
+    if ($selectedRoom?.resolution) {
+      worker.postMessage({ res: $selectedRoom?.resolution, cells: cells });
+    } else {
+      console.log("error drawing : no room selected");
+    }
+  };
 
   onMount(() => {
     if (!canvas) return;
@@ -23,30 +52,10 @@
     context.imageSmoothingEnabled = false;
 
     if (window.Worker) {
-      const url = new URL("/src/worker.ts", import.meta.url);
-      let worker = new Worker(url);
-
-      worker.onmessage = (e: MessageEvent<any>) => {
-        if (e.data.message) {
-          console.log("worker: ", e.data.message);
-        }
-        if (e.data.imageData) {
-          context?.putImageData(
-            e.data.imageData,
-            e.data.x + canvas.width / 2,
-            e.data.y + canvas.height / 2
-          );
-        }
-      };
-
-      if ($selectedRoom?.resolution) {
-        worker.postMessage({ res: $selectedRoom?.resolution, cells: cells });
-      } else {
-        console.log("error drawing : no room selected");
-      }
+      loadWorker();
 
       return () => {
-        worker.terminate();
+        worker?.terminate();
       };
     } else {
       console.log("no worker capabilities");
