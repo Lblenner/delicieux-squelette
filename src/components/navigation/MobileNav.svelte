@@ -18,7 +18,7 @@
     <!-- {/* potential name */} -->
   </div>
   <div class="flex flex-col items-center">
-    {#each navigationValues as item}
+    {#each $navigationValues as item}
       <button
         class="btn text-2xl hover:text-black"
         on:click={() => click(item.route)}

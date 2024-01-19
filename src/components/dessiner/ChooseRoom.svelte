@@ -1,6 +1,7 @@
 <script>
   import { goto } from "$app/navigation";
   import { selectedRoom } from "../appState";
+  import { _ } from "svelte-i18n";
 </script>
 
 <div class=" flex flex-col items-center p-4 gap-2">
@@ -29,5 +30,5 @@
   class="btn variant-filled p-3 m-1 mb-0 btn-sm bg-black"
   on:click={() => {
     goto("/parcourir");
-  }}>Changer de dessin</button
+  }}>{$_('changeDrawing')}</button
 >

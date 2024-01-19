@@ -10,7 +10,7 @@
     <MobileNav />
     <div class="hidden md:flex flex-row items-center gap-10">
       <ul class="gap-10 items-center justify-center flex">
-        {#each navigationValues as item}
+        {#each $navigationValues as item}
           <li>
             <a href={item.route}>
               {item.name}

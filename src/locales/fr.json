@@ -3,5 +3,12 @@
     "welcome.1": "bienvenue sur le delicieux squelette, un cadavre exquis de dessin en ligne",
     "welcome.2" : "clique sur l'onglet regarder pour voir les cadavres exquis en cours",
     "welcome.3" : "et si tu veux participer, clique sur l'onglet dessiner, choisis un cadavre exquis et commence un dessin !",
-    "welcome.4" : "hesites pas a envoyer un mess a loui_bln (insta) si tu as une suggestion :"
+    "welcome.4" : "hesites pas a envoyer un mess a loui_bln (insta) si tu as une suggestion :",
+    "accueil" : "accueil",
+    "parcourir": "admirer",
+    "draw": "dessiner",
+    "loading" : "chargement",
+    "changeDrawing":"changer de dessin",
+    "startDrawing":"commencer un dessin",
+    "send": "envoyer"
 }

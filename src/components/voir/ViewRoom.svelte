@@ -4,6 +4,9 @@
   // @ts-ignore
   import FaArrowLeft from "svelte-icons/fa/FaArrowLeft.svelte";
   import { goto } from "$app/navigation";
+
+  import { _ } from 'svelte-i18n'
+
   let height: number;
   let width: number;
 </script>
@@ -23,7 +26,7 @@
   </div>
 
   {#await $currentCells}
-    <div class="pt-32">chargement</div>
+    <div class="pt-32">{$_('loading')}</div>
   {:then cells}
     {#if cells}
       <ViewCanvas {width} {height} {cells} />

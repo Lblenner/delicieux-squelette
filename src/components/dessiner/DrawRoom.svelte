@@ -11,6 +11,7 @@
   // @ts-ignore
   import FaArrowLeft from "svelte-icons/fa/FaArrowLeft.svelte";
   import ToolSelector from "./ToolSelector.svelte";
+  import { _ } from "svelte-i18n";
 
   let promise: Promise<void>;
   let error: string = "";
@@ -45,7 +46,7 @@
       <div class="absolute h-16 w-16 top-36 left-4"></div>
       <div class="absolute bottom-0 ml-auto mr-auto">
         <button class="btn variant-filled p-4 m-4 btn-lg" on:click={comp}
-          >Envoyer</button
+          >{$_("send")}</button
         >
       </div>
       <div class="absolute left-0">
@@ -69,7 +70,7 @@
         {#if $selectedRoom}
           <button
             class="btn variant-filled p-3 m-1 btn-sm bg-black"
-            on:click={req}>Demander un dessin</button
+            on:click={req}>{$_("startDrawing")}</button
           >
         {/if}
       </div>

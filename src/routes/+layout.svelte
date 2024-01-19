@@ -15,11 +15,11 @@
     offset,
     arrow,
   } from "@floating-ui/dom";
-  import { initLang } from "../i18n";
+  // import { initLang } from "../i18n";
 
   initializeStores();
   storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
-  initLang()
+  // initLang()
 </script>
 
 <Modal />

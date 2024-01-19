@@ -1,22 +1,23 @@
+import { _, locale } from 'svelte-i18n'
 
+import { unwrapFunctionStore } from 'svelte-i18n';
+import { derived } from 'svelte/store';
 
+const $_ = unwrapFunctionStore(_);
 
-export const navigationValues = [
-    {
-        name: "présentation",
-        route: "/"
-    },
-    {
-        name: "regarder",
-        route: "/voir"
-    },
-    {
-        name: "dessiner",
-        route: "/dessiner"
-    },
-    // {
-    //     name: "Parcourir",
-    //     route: "/parcourir"
-    // },
-
-]
+export const navigationValues = derived(locale, (_) => {
+    return [
+        {
+            name: $_('accueil'),
+            route: "/"
+        },
+        {
+            name: $_('parcourir'),
+            route: "/voir"
+        },
+        {
+            name: $_('draw'),
+            route: "/dessiner"
+        },
+    ]
+}) 
