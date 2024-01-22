@@ -40,8 +40,12 @@ addEventListener('message', async (event
             x: res * cell.x,
             y: res * cell.y,
         });
-
-        await new Promise(r => setTimeout(r, 10));
+        
+        try {
+            await new Promise(r => setTimeout(r, 10));
+        } catch (e) {
+            console.log("erreur worker: ",e)
+        }
     }
 
     postMessage({
