@@ -27,11 +27,15 @@
         console.log("worker: ", e.data.message);
       }
       if (e.data.imageData) {
-        context?.putImageData(
-          e.data.imageData,
-          e.data.x + canvas.width / 2,
-          e.data.y + canvas.height / 2
-        );
+        try {
+          context?.putImageData(
+            e.data.imageData,
+            e.data.x + canvas.width / 2,
+            e.data.y + canvas.height / 2
+          );
+        } catch (e) {
+          console.log("e : ", e);
+        }
       }
     };
 

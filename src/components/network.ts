@@ -44,6 +44,7 @@ export const getDessins = async (args: { id: number, password?: string }, fetch:
                 cell.content = new_content
             }
     }
+    console.log(res)
     return res
 }
 
