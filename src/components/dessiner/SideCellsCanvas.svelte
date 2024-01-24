@@ -21,31 +21,38 @@
     if (!context || pixel_size == -1 || !current_dessin) {
       return;
     }
-    canvasHolderRef.innerHTML = ''
-    current_dessin.side_cells.forEach((cell) => {
+    canvasHolderRef.innerHTML = "";
+
+    let x = current_dessin.selected_cell.x;
+    let y = current_dessin.selected_cell.y;
+
+    let neighbors = [
+      [x - 1, y - 1],
+      [x, y - 1],
+      [x + 1, y - 1],
+      [x - 1, y],
+      [x + 1, y],
+      [x - 1, y + 1],
+      [x, y + 1],
+      [x + 1, y + 1],
+    ];
+
+    for (let cell of current_dessin.side_cells) {
+      
       if (!cell.content || !cell.done) {
-
-        let child = document.createElement("div");
-        let l = image_resolution * pixel_size;
-        let diffX = current_dessin.selected_cell.x - cell.x;
-        let diffY = current_dessin.selected_cell.y - cell.y;
-
-        if (diffX == 0 && diffY == 0) {
-          return
-        }
-        child.style.width = (diffX == 0 ? l : dxy) + "px";
-        child.style.height = (diffY == 0 ? l : dxy) + "px";
-        child.style.top = (diffY == 0 ? dxy : diffY < 0 ? dxy + l : 0) + "px";
-        child.style.left = (diffX == 0 ? dxy : diffX < 0 ? dxy + l : 0) + "px";
-        child.style.backgroundColor = "#5d9281";
-        child.style.position = "absolute";
-        canvasHolderRef.appendChild(child);
-
-        return;
+        continue;
       }
 
       if (cell.content.length !== image_resolution * image_resolution * 4) {
-        return;
+        continue;
+      }
+
+      let i = neighbors.findIndex(
+        (elem) => elem[0] === cell.x && elem[1] === cell.y
+      );
+
+      if (i !== -1) {
+        neighbors.splice(i, 1);
       }
 
       let imageData = new ImageData(
@@ -57,21 +64,39 @@
 
       imageData.data.set(content);
 
-      let x =
+      let x_p =
         dxy +
         image_resolution *
           pixel_size *
           (cell.x - current_dessin.selected_cell.x);
-      let y =
+      let y_p =
         dxy +
         image_resolution *
           pixel_size *
           (cell.y - current_dessin.selected_cell.y);
 
       setTimeout(function () {
-        context?.putImageData(imageData, x, y);
+        context?.putImageData(imageData, x_p, y_p);
       }, 10);
-    });
+    }
+
+
+    for (let cell of neighbors) {
+      let l = image_resolution * pixel_size;
+      let diffX = x - cell[0];
+      let diffY = y - cell[1];
+
+      let child = document.createElement("div");
+
+    
+      child.style.width = (diffX == 0 ? l : dxy) + "px";
+      child.style.height = (diffY == 0 ? l : dxy) + "px";
+      child.style.top = (diffY == 0 ? dxy : diffY < 0 ? dxy + l : 0) + "px";
+      child.style.left = (diffX == 0 ? dxy : diffX < 0 ? dxy + l : 0) + "px";
+      child.style.backgroundColor = "#5d9281";
+      child.style.position = "absolute";
+      canvasHolderRef.appendChild(child);
+    }
   };
 
   $: drawBuffer($currentDessin, image_resolution, pixel_size);
@@ -111,7 +136,7 @@
 
 <div class="p-4">
   <div style="width: {w}px; height: {h}px">
-    <div class="relative bg-[#709c8d]" >
+    <div class="relative bg-[#709c8d]">
       <canvas
         bind:this={canvas}
         width={w}

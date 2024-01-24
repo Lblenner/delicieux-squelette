@@ -27,6 +27,7 @@
         console.log("worker: ", e.data.message);
       }
       if (e.data.imageData) {
+        console.log("putImageData",e.data.x)
         try {
           context?.putImageData(
             e.data.imageData,

@@ -33,20 +33,15 @@ addEventListener('message', async (event
             continue;
         }
 
-
-        try {
-            let imageData = new ImageData(res, res);
-            imageData.data.set(cell.content);
-
-            postMessage({
-                imageData: imageData,
-                x: res * cell.x,
-                y: res * cell.y,
-            });
-            await new Promise(r => setTimeout(r, 10));
-        } catch (e) {
-            console.log("erreur worker: ", e)
-        }
+        let imageData = new ImageData(res, res);
+        imageData.data.set(cell.content);
+        console.log("post message ", res * cell.x, ",", res * cell.y)
+        postMessage({
+            imageData: imageData,
+            x: res * cell.x,
+            y: res * cell.y,
+        });
+        await new Promise(r => setTimeout(r, 10));
     }
 
     postMessage({

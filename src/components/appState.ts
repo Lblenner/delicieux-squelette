@@ -21,7 +21,7 @@ export const currentCells = derived(selectedRoom, async (room) => {
     }
 
     const dessins = await getDessins({ id: room.id, password: room.hashed_password }, fetch)
-    dessins.content
+
     if (!dessins.content) {
         console.log("Erreur pas de dessins")
         return null
