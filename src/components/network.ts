@@ -44,7 +44,6 @@ export const getDessins = async (args: { id: number, password?: string }, fetch:
                 cell.content = new_content
             }
     }
-    console.log(res)
     return res
 }
 
@@ -93,7 +92,6 @@ const sendPost = async <T>(route: string, obj: any, fetch: any) => {
 
         const response: Response = await fetch(MYURL + route, requestOptions)
         if (response.status !== 200) {
-            console.log("not good status", response)
             result.error = {
                 message: "server erreur",
                 body: await response.text()

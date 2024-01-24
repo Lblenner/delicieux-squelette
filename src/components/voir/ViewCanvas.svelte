@@ -27,16 +27,11 @@
         console.log("worker: ", e.data.message);
       }
       if (e.data.imageData) {
-        console.log("putImageData",e.data.x)
-        try {
-          context?.putImageData(
-            e.data.imageData,
-            e.data.x + canvas.width / 2,
-            e.data.y + canvas.height / 2
-          );
-        } catch (e) {
-          console.log("e : ", e);
-        }
+        context?.putImageData(
+          e.data.imageData,
+          e.data.x + canvas.width / 2,
+          e.data.y + canvas.height / 2
+        );
       }
     };
 
@@ -49,6 +44,9 @@
 
   onMount(() => {
     if (!canvas) return;
+    // var isSafari = (window as any).safari !== undefined;
+    // if (isSafari) console.log("Safari, yeah!");
+    // console.log(navigator.userAgent);
     const infinite_canvas = new InfiniteCanvas(canvas);
     infinite_canvas.greedyGestureHandling = true;
     context = infinite_canvas.getContext("2d");

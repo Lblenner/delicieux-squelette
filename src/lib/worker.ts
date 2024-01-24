@@ -35,7 +35,6 @@ addEventListener('message', async (event
 
         let imageData = new ImageData(res, res);
         imageData.data.set(cell.content);
-        console.log("post message ", res * cell.x, ",", res * cell.y)
         postMessage({
             imageData: imageData,
             x: res * cell.x,
