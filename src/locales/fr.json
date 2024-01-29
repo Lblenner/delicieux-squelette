@@ -10,5 +10,6 @@
     "loading" : "chargement",
     "changeDrawing":"changer de dessin",
     "startDrawing":"commencer un dessin",
-    "send": "envoyer"
+    "send": "envoyer",
+    "safari_bug" : "safari détecté"
 }

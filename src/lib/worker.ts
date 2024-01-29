@@ -10,7 +10,7 @@ export type WorkerMessage = {
 
 
 addEventListener('message', async (event
-    : MessageEvent<{ cells: Cell[], res: number }>) => {
+    : MessageEvent<{ cells: Cell[], res: number, wait: boolean }>) => {
     const cells = event.data.cells;
     const res = event.data.res
     postMessage({
@@ -40,7 +40,9 @@ addEventListener('message', async (event
             x: res * cell.x,
             y: res * cell.y,
         });
-        await new Promise(r => setTimeout(r, 10));
+        if (event.data.wait) {
+            await new Promise(r => setTimeout(r, 10));
+        }
     }
 
     postMessage({

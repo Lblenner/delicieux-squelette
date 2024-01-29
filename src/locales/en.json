@@ -10,5 +10,6 @@
     "loading": "loading",
     "changeDrawing": "change drawing",
     "startDrawing": "start drawing",
-    "send": "send"
+    "send": "send",
+    "safari_bug": "safari detected"
 }
