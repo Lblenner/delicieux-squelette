@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { hash } from '$lib/hash';
-	import { quitRoom, usersRooms } from '../appState';
+	import { usersRooms } from '../appState';
 
 	export let index: number;
 
@@ -48,11 +48,11 @@
 		<div class="text-center p-2">
 			Mot de passe admin : {room.admin}
 		</div>
-		<button on:click={() => quitRoom(room)} class="btn w-full variant-filled"
+		<button on:click={() => null} class="btn w-full variant-filled"
 			>quitter la salle</button
 		>
 	{:else}
-		<button on:click={() => quitRoom(room)} class="btn w-full variant-filled"
+		<button on:click={() => null} class="btn w-full variant-filled"
 			>quitter la salle</button
 		>
 	{/if}

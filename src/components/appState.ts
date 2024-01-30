@@ -3,17 +3,23 @@ import type { AddRoom, Dessin, Room, RoomWithPass } from "./types";
 
 import { addRoom, completeDessin, getDessins, requestDessin } from "./network";
 import { localStorageStore } from "@skeletonlabs/skeleton";
+import type { ToolAction } from "./dessiner/tools";
 
 export interface InitAppState {
     allRooms: Room[]
 }
 
-
 export const allRooms = writable<Room[]>([]);
-export const usersRooms: Writable<RoomWithPass[]> = localStorageStore("usersRooms",[]);
-export const selectedRoom: Writable<Room | null> = localStorageStore("selectedRoom",null);
-export const savedDessins = writable(new Map<number, Dessin>());
-export const currentDessin: Writable<Dessin | null> = localStorageStore("currentDessin",null);
+export const usersRooms: Writable<RoomWithPass[]> = localStorageStore("usersRooms", []);
+export const selectedRoom: Writable<Room | null> = localStorageStore("selectedRoom", null);
+export const currentDessin: Writable<Dessin | null> = localStorageStore("currentDessin", null);
+export const undoBuffer = writable<Dessin[]>([])
+export const redoBuffer = writable<Dessin[]>([])
+
+selectedRoom.subscribe((_) => {
+    undoBuffer.set([])
+    redoBuffer.set([])
+})
 
 export const currentCells = derived(selectedRoom, async (room) => {
     if (!room) {
@@ -31,43 +37,27 @@ export const currentCells = derived(selectedRoom, async (room) => {
 }
 )
 
-export const worker = writable<Worker | null>();
+// export const worker = writable<Worker | null>();
 
 
-export const joinRoom = async (room: Room) => {
-    usersRooms.update((value) => {
-        if (!value.find((elem) => elem.id === room.id)) {
-            value.push(room)
-        }
-        return value
-    })
-    setSelectedRoom(room)
-}
+// export const joinRoom = async (room: Room) => {
+//     usersRooms.update((value) => {
+//         if (!value.find((elem) => elem.id === room.id)) {
+//             value.push(room)
+//         }
+//         return value
+//     })
+//     setSelectedRoom(room)
+// }
 
-export const quitRoom = async (room: Room) => {
-    usersRooms.update((value) => {
-        return value.filter((elem) => elem.id !== room.id)
-    })
-    setSelectedRoom(null)
-}
+// export const quitRoom = async (room: Room) => {
+//     usersRooms.update((value) => {
+//         return value.filter((elem) => elem.id !== room.id)
+//     })
+//     setSelectedRoom(null)
+// }
 
 export const setSelectedRoom = (new_room: Room | null) => {
-    const room = get(selectedRoom)
-    const dessin = get(currentDessin)
-    const saved = get(savedDessins)
-
-    if (room && dessin) {
-        const a: Room = room
-        const b: Dessin = dessin
-        savedDessins.update((elem) => {
-            elem.set(a.id, b)
-            return elem
-        })
-    }
-
-    if (new_room) {
-        currentDessin.set(saved.get(new_room.id) ?? null)
-    }
     selectedRoom.set(new_room)
 }
 
@@ -79,16 +69,14 @@ export const request = async () => {
         if (!response.content) {
             return
         }
-
+        undoBuffer.set([])
+        redoBuffer.set([])
         currentDessin.set(response.content)
     }
 }
 
 export const cancelDessin = async () => {
-    
-
-        currentDessin.set(null)
-    
+    currentDessin.set(null)
 }
 
 export const complete = async () => {
@@ -109,10 +97,6 @@ export const complete = async () => {
             return
         }
 
-        savedDessins.update((elem) => {
-            elem.delete(cell.selected_cell.id)
-            return elem
-        })
         currentDessin.set(null)
     }
 }
@@ -129,17 +113,41 @@ export const createRoom = async (new_room: AddRoom) => {
     r.admin = new_room.admin_password
     r.password = new_room.password
 
-    await joinRoom(r)
 }
 
-// export const destructRoom = async (room: Room) => {
+export const updateDessin = async (toolAction: ToolAction[], image_resolution) => {
+    currentDessin.update((value) => {
+        if (!value) {
+            return value;
+        }
+        let content: number[];
 
-//     const result = await deleteRoom(
-//         { id: room.id, password: room.admin_pass }, fetch)
-    
-//     if(result.error) {
-//         return
-//     }
+        if (
+            value.selected_cell.content &&
+            value.selected_cell.content.length ===
+            image_resolution * image_resolution * 4
+        ) {
+            content = value.selected_cell.content;
+        } else {
+            content = new Array(image_resolution * image_resolution * 4);
+            content.fill(0);
+        }
 
-//     quitRoom(room)
-// }
+        toolAction.forEach((coo) => {
+            let pos = (coo.y * image_resolution + coo.x) * 4; // position in buffer based on x and y
+            if (pos < content.length) {
+                // dessin.splice.apply([pos, 4, ...coo.value]);
+                content[pos] = coo.value[0]; // some R value [0, 255]
+                content[pos + 1] = coo.value[1]; // some G value
+                content[pos + 2] = coo.value[2]; // some B value
+                content[pos + 3] = coo.value[3]; // set alpha channel
+            }
+        });
+
+        content = content.map((value) => (value === null ? 0 : value));
+
+        value.selected_cell.content = content;
+
+        return value;
+    });
+}

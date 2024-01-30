@@ -43,24 +43,19 @@
   {:then}
     {#if $currentDessin}
       <Draw />
-      <div class="absolute h-16 w-16 top-36 left-4"></div>
+      <div class="absolute top-0 z-10 right-0">
+        <button
+          class="btn variant-filled p-4 m-4 btn-lg"
+          on:click={cancelDessin}>{$_("cancel")}</button
+        >
+      </div>
       <div class="absolute bottom-0 ml-auto mr-auto">
         <button class="btn variant-filled p-4 m-4 btn-lg" on:click={comp}
           >{$_("send")}</button
         >
       </div>
       <div class="absolute left-0">
-        <div>
-          <button
-            class="h-16 w-16"
-            on:click={() => {
-              cancelDessin();
-            }}
-          >
-            <FaArrowLeft />
-          </button>
-          <ToolSelector />
-        </div>
+        <ToolSelector />
       </div>
     {:else}
       <div

@@ -3,7 +3,7 @@ import type { Dessin } from '../types';
 import type { ToolAction } from './tools';
 
 export function createCanvasData(image_resolution: number, pixel_size: number, current_dessin: Dessin | null) {
-
+	// console.log("creating buffer	")
 	let buffer = new Uint8ClampedArray(
 		image_resolution * image_resolution * pixel_size * pixel_size * 4
 	);
