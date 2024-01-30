@@ -41,6 +41,15 @@
     }
   };
 
+  const touchEnter = (e) => {
+    undoBuffer.update((value) => {
+      value.push(clone($currentDessin));
+      return value;
+    });
+    redoBuffer.set([]);
+    handleTouchemove(e);
+  };
+
   const handleTouchemove = (e: TouchEvent) => {
     var rect = canvas.getBoundingClientRect();
     if (
@@ -90,4 +99,5 @@
   on:mousedown={mouseEnter}
   on:mouseenter={mouseEnter}
   on:touchmove|stopPropagation={handleTouchemove}
+  on:touchstart|stopPropagation={touchEnter}
 />
