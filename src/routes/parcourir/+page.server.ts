@@ -1,9 +1,16 @@
 import { getRooms } from "../../components/network";
 
+import { env } from '$env/dynamic/private';
+
 /** @type {import('./$types').LayoutServerLoad} */
 export async function load({ fetch }) {
 
-    const allRooms = (await getRooms(fetch)).content ?? []
+    const allRooms = await getRooms(fetch, env.INTERNAL_API_URL)
 
-    return { allRooms };
+    if (allRooms.error) {
+        console.log("getRooms error : ", allRooms.error)
+        return { allRooms: [] }
+    }
+
+    return { allRooms: allRooms.content };
 }
